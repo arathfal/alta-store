@@ -1,6 +1,6 @@
-package model
+package models
 
 type Cart struct {
 	GormModel
-	Products []Product `gorm:"many2many:cart_products`
+	// Products []Product `gorm:"many2many:cart_products`
 }
