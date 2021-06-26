@@ -4,7 +4,7 @@ import "AltaStore/models"
 
 type Product struct {
 	models.GormModel
-	Name        string
-	Stock       int
-	Description string
+	Name        string	`json:"name"`
+	Stock       int			`json:"stock"`
+	Description string	`json:"desciption"`
 }
