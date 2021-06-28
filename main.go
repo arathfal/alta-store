@@ -1,7 +1,7 @@
 package main
 
 import (
-	"AltaStore/configs"
+	"AltaStore/config"
 	"AltaStore/routes"
 )
 
