@@ -6,9 +6,9 @@ import (
 	"github.com/labstack/echo"
 )
 
-
 func New() *echo.Echo {
 	e := echo.New()
-	e.DELETE("carts/:cartId/products/:productsId", controllers.DeleteCartControllers)
+	e.GET("/products", controllers.GetProductsController)
+	e.POST("/products", controllers.CreateProductController)
 	return e
 }
