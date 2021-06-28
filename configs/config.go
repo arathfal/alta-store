@@ -3,6 +3,8 @@ package configs
 import (
 	"AltaStore/models/cart"
 	"AltaStore/models/cartproducts"
+	"AltaStore/models/categories"
+	"AltaStore/models/customer"
 	"AltaStore/models/product"
 	"fmt"
 	"log"
@@ -12,7 +14,6 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
-
 
 var DB *gorm.DB
 
@@ -30,12 +31,12 @@ func InitDB() {
 	schema := os.Getenv("SCHEMA")
 
 	dataSourceName := fmt.Sprintf("%s:%s@tcp(%s)/%s",
-		username,	password, host, schema, 
+		username, password, host, schema,
 	)
 
 	var err error
 	DB, err = gorm.Open(mysql.Open(dataSourceName), &gorm.Config{})
-	
+
 	if err != nil {
 		panic(err.Error())
 	}
@@ -43,5 +44,5 @@ func InitDB() {
 }
 
 func AutoMigrate() {
-	DB.AutoMigrate(&product.Product{}, &cart.Cart{}, &cartproducts.CartProducts{})
+	DB.AutoMigrate(&customer.Customer{}, &product.Product{}, &categories.Category{}, &cart.Cart{}, &cartproducts.CartProducts{})
 }
