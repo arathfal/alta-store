@@ -13,7 +13,6 @@ import (
 	"gorm.io/gorm"
 )
 
-
 var DB *gorm.DB
 
 // type config struct {
@@ -30,12 +29,12 @@ func InitDB() {
 	schema := os.Getenv("SCHEMA")
 
 	dataSourceName := fmt.Sprintf("%s:%s@tcp(%s)/%s",
-		username,	password, host, schema, 
+		username, password, host, schema,
 	)
 
 	var err error
 	DB, err = gorm.Open(mysql.Open(dataSourceName), &gorm.Config{})
-	
+
 	if err != nil {
 		panic(err.Error())
 	}
