@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo"
+	"golang.org/x/crypto/bcrypt"
 )
 
 func GetCustomerController(e echo.Context) error {
@@ -31,7 +32,7 @@ func RegisterController(e echo.Context) error {
 	var customerDB customer.Customer
 	customerDB.Name = customerRegister.Name
 	customerDB.Email = customerRegister.Email
-	customerDB.Password = customerRegister.Password
+	customerDB.Password = hashAndSalt(customerRegister.Password)
 
 	err := configs.DB.Create(&customerDB)
 	if err != nil {
@@ -43,4 +44,13 @@ func RegisterController(e echo.Context) error {
 	return e.JSON(http.StatusOK, customer.ResponseCustomerSingle{
 		true, "Success registered", customerDB,
 	})
+}
+
+func hashAndSalt(pass string) string {
+	pwd := []byte(pass)
+	hash, err := bcrypt.GenerateFromPassword(pwd, bcrypt.MinCost)
+	if err != nil {
+		panic(err.Error())
+	}
+	return string(hash)
 }
