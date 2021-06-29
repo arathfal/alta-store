@@ -2,7 +2,7 @@ package configs
 
 import (
 	"AltaStore/models/cart"
-	"AltaStore/models/cartproducts"
+	"AltaStore/models/cartitems"
 	"AltaStore/models/categories"
 	"AltaStore/models/customer"
 	"AltaStore/models/product"
@@ -40,9 +40,12 @@ func InitDB() {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	DB.SetupJoinTable(&cart.Cart{}, "Products", &cartitems.CartItems{})
+
 	AutoMigrate()
 }
 
 func AutoMigrate() {
-	DB.AutoMigrate(&customer.Customer{}, &product.Product{}, &categories.Category{}, &cart.Cart{}, &cartproducts.CartProducts{})
+	DB.AutoMigrate(&customer.Customer{}, &categories.Category{}, &product.Product{}, &cart.Cart{}, &cartitems.CartItems{})
 }
