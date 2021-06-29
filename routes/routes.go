@@ -12,5 +12,7 @@ func New() *echo.Echo {
 	e.POST("/customers/register", controllers.RegisterController)
 	e.GET("/category", controllers.GetCategoryController)
 	e.POST("/category", controllers.CreateCategoryController)
+	e.DELETE("carts/:cartId/products/:productId", controllers.DeleteCartControllers)
+	
 	return e
 }
