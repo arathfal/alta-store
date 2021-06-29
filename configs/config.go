@@ -44,5 +44,9 @@ func InitDB() {
 }
 
 func AutoMigrate() {
-	DB.AutoMigrate(&customer.Customer{}, &product.Product{}, &categories.Category{}, &cart.Cart{}, &cartproducts.CartProducts{})
+	DB.AutoMigrate(&customer.Customer{})
+	DB.AutoMigrate(&cart.Cart{})
+	DB.AutoMigrate(&cartproducts.CartProducts{})
+	DB.AutoMigrate(&product.Product{})
+	DB.AutoMigrate(&categories.Category{})
 }
