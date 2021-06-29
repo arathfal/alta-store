@@ -24,6 +24,23 @@ func GetProductsController(e echo.Context) error {
 	})
 }
 
+func GetProductsByCategoryController(e echo.Context) error {
+	var dataProduct []product.Product
+	categoryId := e.QueryParam("CategoryID")
+
+	err := configs.DB.Find(&dataProduct).Where("category_id = ?", categoryId).Error
+
+	if err != nil {
+		return e.JSON(http.StatusInternalServerError, product.ProductResponse{
+			false, "Failed get data products", nil,
+		})
+	}
+
+	return e.JSON(http.StatusOK, product.ProductResponse{
+		true, "Success get data products", dataProduct,
+	})
+}
+
 func CreateProductController(e echo.Context) error {
 	var createProduct product.ProductCreate
 

@@ -1,6 +1,8 @@
 package product
 
-import "AltaStore/models"
+import (
+	"AltaStore/models"
+)
 
 type Product struct {
 	models.GormModel
@@ -8,4 +10,5 @@ type Product struct {
 	Stock       int    `json:"stock"`
 	Price       int    `json:"price"`
 	Description string `json:"desciption"`
+	CategoryID  int
 }

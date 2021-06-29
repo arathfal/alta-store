@@ -1,6 +1,7 @@
 package configs
 
 import (
+	"AltaStore/models/categories"
 	"AltaStore/models/product"
 	"fmt"
 	"log"
@@ -41,4 +42,5 @@ func InitDB() {
 
 func AutoMigrate() {
 	DB.AutoMigrate(&product.Product{})
+	DB.AutoMigrate(&categories.Category{})
 }
