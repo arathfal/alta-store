@@ -5,7 +5,6 @@ import (
 	"AltaStore/models/product"
 )
 
-
 type Category struct {
 	models.GormModel
 	Name    string `json:"name"`
