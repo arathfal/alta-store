@@ -30,7 +30,7 @@ func InitDB() {
 	host := os.Getenv("HOST")
 	schema := os.Getenv("SCHEMA")
 
-	dataSourceName := fmt.Sprintf("%s:%s@tcp(%s)/%s",
+	dataSourceName := fmt.Sprintf("%s:%s@tcp(%s)/%s?parseTime=true",
 		username, password, host, schema,
 	)
 
@@ -51,5 +51,5 @@ func AutoMigrate() {
 	DB.AutoMigrate(&cart.Cart{})
 	DB.AutoMigrate(&product.Product{})
 	DB.AutoMigrate(&categories.Category{})
-	DB.AutoMigrate(&customer.Customer{}, &categories.Category{}, &product.Product{}, &cart.Cart{}, &cartitems.CartItems{})
+	DB.AutoMigrate(&cartitems.CartItems{})
 }

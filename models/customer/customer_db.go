@@ -1,6 +1,8 @@
 package customer
 
-import "AltaStore/models"
+import (
+	"AltaStore/models"
+)
 
 type Customer struct {
 	models.GormModel
