@@ -35,6 +35,6 @@ func DeleteCartControllers(c echo.Context) error {
 	
 	// _ = id
 	return c.JSON(http.StatusOK, models.Response{
-		false, "Data Deleted",
+		true, "Data Deleted",
 	})
 }

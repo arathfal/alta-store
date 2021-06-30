@@ -14,11 +14,11 @@ type Order struct {
 	StatusPayment  bool
 	TotalAmount    int
 	OrderDate      time.Time
-	Adress         string
+	Address         string
 	StatusDeliver  string
 	PhoneNumber    string
 	Payment_Method string
 	Courier        string
-	OrderItems		 orderitems.OrderItems
-	CustomerID     int
+	OrderItems		 []orderitems.OrderItems
+	CustomerID     int	`json:"customer_id"`
 }

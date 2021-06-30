@@ -32,7 +32,7 @@ func InitDB() {
 	host := os.Getenv("HOST")
 	schema := os.Getenv("SCHEMA")
 
-	dataSourceName := fmt.Sprintf("%s:%s@tcp(%s)/%s",
+	dataSourceName := fmt.Sprintf("%s:%s@tcp(%s)/%s?parseTime=true",
 		username, password, host, schema,
 	)
 

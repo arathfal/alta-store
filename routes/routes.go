@@ -16,6 +16,7 @@ func New() *echo.Echo {
 	e.GET("/category", controllers.GetCategoryController)
 	e.POST("/category", controllers.CreateCategoryController)
 	e.DELETE("carts/:cartId/products/:productId", controllers.DeleteCartControllers)
+	e.POST("checkout", controllers.PostOrderController)
 
 	return e
 }

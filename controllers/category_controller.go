@@ -32,8 +32,8 @@ func CreateCategoryController(e echo.Context) error {
 	var categoryDB categories.Category
 	categoryDB.Name = categoryCreate.Name
 
-	err := configs.DB.Create(&categoryCreate).Error
-	// err := configs.DB.Create(&categoryDB)
+	// err := configs.DB.Create(&categoryCreate).Error
+	err := configs.DB.Create(&categoryDB).Error
 	if err != nil {
 		return e.JSON(http.StatusInternalServerError, categories.ResponseCategory{
 			false, "Failed add category", nil,
