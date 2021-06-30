@@ -26,13 +26,13 @@ func GetCategoryController(e echo.Context) error {
 }
 
 func CreateCategoryController(e echo.Context) error {
-	var categoryCreate categories.CategoryCreate
+	var categoryCreate categories.Category
 	e.Bind(&categoryCreate)
 
 	var categoryDB categories.Category
 	categoryDB.Name = categoryCreate.Name
 
-	err := configs.DB.Create(&categoryCreate)
+	err := configs.DB.Create(&categoryCreate).Error
 	if err != nil {
 		return e.JSON(http.StatusInternalServerError, categories.ResponseCategory{
 			false, "Failed add category", nil,

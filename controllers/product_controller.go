@@ -11,7 +11,7 @@ import (
 func GetProductsController(e echo.Context) error {
 	var dataProduct []product.Product
 
-	err := configs.DB.Find(&dataProduct).Error
+	err := configs.DB.Preload("Category").Find(&dataProduct).Error
 
 	if err != nil {
 		return e.JSON(http.StatusInternalServerError, product.ProductResponse{
@@ -28,7 +28,7 @@ func GetProductsByCategoryController(e echo.Context) error {
 	var dataProduct []product.Product
 	categoryId := e.QueryParam("CategoryID")
 
-	err := configs.DB.Find(&dataProduct).Where("category_id = ?", categoryId).Error
+	err := configs.DB.Preload("Category").Find(&dataProduct).Where("category_id = ?", categoryId).Error
 
 	if err != nil {
 		return e.JSON(http.StatusInternalServerError, product.ProductResponse{
@@ -51,8 +51,9 @@ func CreateProductController(e echo.Context) error {
 	productDB.Stock = createProduct.Stock
 	productDB.Price = createProduct.Price
 	productDB.Description = createProduct.Description
+	productDB.CategoryID = createProduct.CategoryID
 
-	err := configs.DB.Create(&productDB)
+	err := configs.DB.Create(&productDB).Error
 
 	if err != nil {
 		return e.JSON(http.StatusInternalServerError, product.ProductResponse{

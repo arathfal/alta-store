@@ -34,7 +34,7 @@ func RegisterController(e echo.Context) error {
 	customerDB.Email = customerRegister.Email
 	customerDB.Password = hashAndSalt(customerRegister.Password)
 
-	err := configs.DB.Create(&customerDB)
+	err := configs.DB.Create(&customerDB).Error
 	if err != nil {
 		return e.JSON(http.StatusInternalServerError, customer.ResponseCustomer{
 			false, "Failed register", nil,
