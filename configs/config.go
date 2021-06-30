@@ -5,6 +5,8 @@ import (
 	"AltaStore/models/cartitems"
 	"AltaStore/models/categories"
 	"AltaStore/models/customer"
+	"AltaStore/models/order"
+	"AltaStore/models/orderitems"
 	"AltaStore/models/product"
 	"fmt"
 	"log"
@@ -52,4 +54,6 @@ func AutoMigrate() {
 	DB.AutoMigrate(&product.Product{})
 	DB.AutoMigrate(&categories.Category{})
 	DB.AutoMigrate(&cartitems.CartItems{})
+	DB.AutoMigrate(&order.Order{})
+	DB.AutoMigrate(&orderitems.OrderItems{})
 }
