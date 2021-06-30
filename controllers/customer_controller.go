@@ -50,10 +50,12 @@ func RegisterController(e echo.Context) error {
 }
 
 func CheckLogin(email, password string) (bool, int, error) {
+	var customerDB customer.Customer
 	var customer customer.Customer
-	var pwd string
 
-	err := configs.DB.Select("password").Where("email = ?", email).Take(&customer).Scan(&pwd).Error
+	err := configs.DB.Debug().Where("email = ?", email).Find(&customerDB).Scan(&customer).Error
+	id := customer.ID
+	pwd := customer.Password
 
 	if err != nil {
 		fmt.Println("Email not found")
@@ -67,7 +69,7 @@ func CheckLogin(email, password string) (bool, int, error) {
 		return false, 0, err
 
 	}
-	return true, int(customer.ID), nil
+	return true, int(id), nil
 
 }
 

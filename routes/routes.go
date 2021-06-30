@@ -12,7 +12,7 @@ func New() *echo.Echo {
 	e := echo.New()
 	e.POST("/register", controllers.RegisterController)
 	e.POST("/login", controllers.LoginController)
-	eJwt := e.Group("/")
+	eJwt := e.Group("")
 	eJwt.Use(middleware.JWT([]byte(middlewares.GetSecretKey())))
 	eJwt.GET("/customers", controllers.GetCustomerController)
 	eJwt.GET("/products", controllers.GetProductsController)

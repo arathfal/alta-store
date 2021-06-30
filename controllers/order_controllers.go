@@ -6,7 +6,6 @@ import (
 	"AltaStore/models/customer"
 	"AltaStore/models/order"
 	"AltaStore/models/orderitems"
-	"AltaStore/models/product"
 	"fmt"
 	"net/http"
 	"time"
@@ -20,7 +19,7 @@ func PostOrderController(c echo.Context) error {
 
 	var customer customer.Customer
 	// var cart cart.Cart
-	var products []product.Product
+	// var products []product.Product
 	fmt.Println(orderCreate.CustomerID)
 	configs.DB.Where("id = ?", orderCreate.CustomerID).Preload("Cart.CartItems.Product").Find(&customer)
 	fmt.Println(customer.Cart.CartItems)
@@ -39,11 +38,11 @@ func PostOrderController(c echo.Context) error {
 	// orderDB.Payment_Method = orderCreate.Payment_Method
 	for _, v := range customer.Cart.CartItems {
 		orderDB.OrderItems = append(orderDB.OrderItems, orderitems.OrderItems{
-			Name: v.Product.Name,
-			Quantity: v.Quantity,
-			Price: v.Product.Price,
+			Name:        v.Product.Name,
+			Quantity:    v.Quantity,
+			Price:       v.Product.Price,
 			Description: v.Product.Description,
-		})	
+		})
 		// fmt.Println(customer.Cart.CartItems[i])
 	}
 	orderDB.CustomerID = orderCreate.CustomerID

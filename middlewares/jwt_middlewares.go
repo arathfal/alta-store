@@ -7,6 +7,7 @@ import (
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/joho/godotenv"
+	"github.com/labstack/echo"
 )
 
 func GetSecretKey() string {
@@ -27,4 +28,16 @@ func GenerateToken(userId int, userEmail string) (string, error) {
 	// key
 
 	return token.SignedString([]byte(GetSecretKey()))
+}
+
+func HandleLogin(c echo.Context) (int, string) {
+	user := c.Get("customer").(*jwt.Token)
+	if user.Valid {
+		claims := user.Claims.(jwt.MapClaims)
+		userId := claims["userId"].(float64)
+		email := claims["email"].(string)
+		return int(userId), email
+	}
+	return 0, ""
+
 }
