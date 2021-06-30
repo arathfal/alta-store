@@ -1,13 +1,10 @@
 package categories
 
 import (
-	"AltaStore/models"	
-	"AltaStore/models/product"
+	"AltaStore/models"
 )
-
 
 type Category struct {
 	models.GormModel
 	Name string `json:"name"`
-	Product []product.Product
 }

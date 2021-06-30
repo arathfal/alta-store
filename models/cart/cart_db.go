@@ -8,5 +8,5 @@ import (
 type Cart struct {
 	models.GormModel
 	Products   []product.Product `gorm:"many2many:cart_items;" json:"product"`
-	CustomerID uint              `json:"customer_id"`
+	CustomerID int              `json:"customer_id"`
 }
