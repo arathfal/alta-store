@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"AltaStore/configs"
+	"AltaStore/models"
 	"AltaStore/models/product"
 	"net/http"
 
@@ -14,13 +15,17 @@ func GetProductsController(e echo.Context) error {
 	err := configs.DB.Preload("Category").Find(&dataProduct).Error
 
 	if err != nil {
-		return e.JSON(http.StatusInternalServerError, product.ProductResponse{
-			false, "Failed get data products", nil,
+		return e.JSON(http.StatusInternalServerError, models.Response{
+			Status: false, Message: "Failed get data products",
 		})
 	}
 
+	success := models.Response{
+		Status: true, Message: "Success get data products",
+	}
+
 	return e.JSON(http.StatusOK, product.ProductResponse{
-		true, "Success get data products", dataProduct,
+		Response: success, Data: dataProduct,
 	})
 }
 
@@ -31,13 +36,17 @@ func GetProductsByCategoryController(e echo.Context) error {
 	err := configs.DB.Preload("Category").Find(&dataProduct).Where("category_id = ?", categoryId).Error
 
 	if err != nil {
-		return e.JSON(http.StatusInternalServerError, product.ProductResponse{
-			false, "Failed get data products", nil,
+		return e.JSON(http.StatusInternalServerError, models.Response{
+			Status: false, Message: "Failed get data products",
 		})
 	}
 
+	success := models.Response{
+		Status: true, Message: "Success get data products",
+	}
+
 	return e.JSON(http.StatusOK, product.ProductResponse{
-		true, "Success get data products", dataProduct,
+		Response: success, Data: dataProduct,
 	})
 
 }
@@ -57,12 +66,16 @@ func CreateProductController(e echo.Context) error {
 	err := configs.DB.Create(&productDB).Error
 
 	if err != nil {
-		return e.JSON(http.StatusInternalServerError, product.ProductResponse{
-			false, "Failed create products", nil,
+		return e.JSON(http.StatusInternalServerError, models.Response{
+			Status: false, Message: "Failed Add Products",
 		})
 	}
 
+	success := models.Response{
+		Status: true, Message: "Success Add Data Products",
+	}
+
 	return e.JSON(http.StatusOK, product.ProductResponseSingle{
-		true, "Success cteate products", productDB,
+		Response: success, Data: productDB,
 	})
 }

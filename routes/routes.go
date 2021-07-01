@@ -20,9 +20,11 @@ func New() *echo.Echo {
 	eJwt.POST("/products", controllers.CreateProductController)
 	eJwt.GET("/category", controllers.GetCategoryController)
 	eJwt.POST("/category", controllers.CreateCategoryController)
-	eJwt.DELETE("carts/:cartId/products/:productId", controllers.DeleteCartControllers)
-	eJwt.POST("checkout", controllers.PostOrderController)
-	eJwt.POST("paid", controllers.PayController)
+	eJwt.GET("/carts", controllers.GetCartControllers)
+	eJwt.POST("/carts", controllers.AddToCartController)
+	eJwt.DELETE("/carts/:cartId/products/:productId", controllers.DeleteCartControllers)
+	eJwt.POST("/checkout", controllers.PostOrderController)
+	eJwt.POST("/paid", controllers.PayController)
 
 	return e
 }

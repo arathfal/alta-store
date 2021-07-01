@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"AltaStore/configs"
+	"AltaStore/models"
 	"AltaStore/models/categories"
 	"net/http"
 
@@ -14,13 +15,15 @@ func GetCategoryController(e echo.Context) error {
 	err := configs.DB.Find(&dataCategory).Error
 
 	if err != nil {
-		return e.JSON(http.StatusInternalServerError, categories.ResponseCategory{
-			false, "Failed get category", nil,
+		return e.JSON(http.StatusInternalServerError, models.Response{
+			Status: false, Message: "Failed Get Category",
 		})
 	}
-
+	success := models.Response{
+		Status: true, Message: "Success Get Category",
+	}
 	return e.JSON(http.StatusOK, categories.ResponseCategory{
-		true, "Success get category", dataCategory,
+		Response: success, Data: dataCategory,
 	})
 
 }
@@ -35,12 +38,14 @@ func CreateCategoryController(e echo.Context) error {
 	// err := configs.DB.Create(&categoryCreate).Error
 	err := configs.DB.Create(&categoryDB).Error
 	if err != nil {
-		return e.JSON(http.StatusInternalServerError, categories.ResponseCategory{
-			false, "Failed add category", nil,
+		return e.JSON(http.StatusInternalServerError, models.Response{
+			Status: false, Message: "Failed Add Category",
 		})
 	}
-
+	success := models.Response{
+		Status: true, Message: "Success Add Category",
+	}
 	return e.JSON(http.StatusOK, categories.ResponseCategorySingle{
-		true, "Success add category", categoryDB,
+		Response: success, Data: categoryDB,
 	})
 }

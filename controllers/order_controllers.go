@@ -3,6 +3,7 @@ package controllers
 import (
 	"AltaStore/configs"
 	"AltaStore/models"
+
 	// "AltaStore/models/cart"
 	"AltaStore/models/customer"
 	"AltaStore/models/order"
@@ -28,7 +29,7 @@ func PostOrderController(c echo.Context) error {
 	// if cart customer kosong -- FALSE
 	if customer.Cart.CartItems == nil {
 		return c.JSON(http.StatusBadRequest, models.Response{
-			false, "cart kosong",
+			Status: false, Message: "Cart is Empty",
 		})
 		// return echo.NewHTTPError(http.StatusBadRequest, "data cart kosong")
 	}
@@ -38,7 +39,7 @@ func PostOrderController(c echo.Context) error {
 	// orderDB.TotalAmount = orderCreate.TotalAmount
 	orderDB.OrderDate = time.Now()
 	// orderDB.Address = orderCreate.Address
-	orderDB.StatusDeliver = "Menunggu Verifikasi Pembayaran"
+	orderDB.StatusDeliver = "Waiting for Payment Verification"
 	// orderDB.PhoneNumber = orderCreate.PhoneNumber
 	// orderDB.Payment_Method = orderCreate.Payment_Method
 
@@ -50,18 +51,18 @@ func PostOrderController(c echo.Context) error {
 			Quantity:    v.Quantity,
 			Price:       v.Product.Price,
 			Description: v.Product.Description,
-		})	
+		})
 	}
 	orderDB.CustomerID = orderCreate.CustomerID
 
 	configs.DB.Create(&orderDB)
 
 	// jika error create maka tidak di delete
-	
+
 	configs.DB.Where("cart_id = ?", customer.Cart.ID).Delete(&customer.Cart.CartItems)
 
 	return c.JSON(http.StatusOK, models.Response{
-		true, "Success Checkout",
+		Status: true, Message: "Success Checkout",
 	})
 }
 
@@ -69,19 +70,18 @@ func PayController(c echo.Context) error {
 	var orderUpdate order.Order
 	c.Bind(&orderUpdate)
 
-
 	var order order.Order
 	// var customer customer.Customer
 	configs.DB.Where("id = ?", orderUpdate.CustomerID).Find(&order)
 	// fmt.Println(customer.Cart.CartItems)
 
-	// if cart customer kosong -- FALSE 
+	// if cart customer kosong -- FALSE
 	order.StatusPayment = true
 	order.StatusDeliver = "Approved"
 
 	configs.DB.Save(&order)
 
 	return c.JSON(http.StatusOK, models.Response{
-		true, "Transaction success",
+		Status: true, Message: "Transaction Success",
 	})
 }

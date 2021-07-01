@@ -4,6 +4,7 @@ import (
 	"AltaStore/configs"
 	helper "AltaStore/helpers"
 	"AltaStore/middlewares"
+	"AltaStore/models"
 	"AltaStore/models/customer"
 	"fmt"
 	"net/http"
@@ -17,13 +18,17 @@ func GetCustomerController(e echo.Context) error {
 	err := configs.DB.Find(&dataCustomers).Error
 
 	if err != nil {
-		return e.JSON(http.StatusInternalServerError, customer.ResponseCustomer{
-			false, "Failed get data Customers", nil,
+		return e.JSON(http.StatusInternalServerError, models.Response{
+			Status: false, Message: "Failed Get Data Customers",
 		})
 	}
 
+	success := models.Response{
+		Status: true, Message: "Success Get Data Customers",
+	}
+
 	return e.JSON(http.StatusOK, customer.ResponseCustomer{
-		true, "Success get Data Customer", dataCustomers,
+		Response: success, Data: dataCustomers,
 	})
 }
 
@@ -39,13 +44,16 @@ func RegisterController(e echo.Context) error {
 	err := configs.DB.Create(&customerDB).Error
 
 	if err != nil {
-		return e.JSON(http.StatusInternalServerError, customer.ResponseCustomer{
-			false, "Failed register", nil,
+		return e.JSON(http.StatusInternalServerError, models.Response{
+			Status: false, Message: "Failed Register",
 		})
+	}
+	success := models.Response{
+		Status: true, Message: "Success Registered",
 	}
 
 	return e.JSON(http.StatusOK, customer.ResponseCustomerSingle{
-		true, "Success registered", customerDB,
+		Response: success, Data: customerDB,
 	})
 }
 
@@ -79,8 +87,8 @@ func LoginController(e echo.Context) error {
 	result, id, err := CheckLogin(email, password)
 
 	if err != nil {
-		return e.JSON(http.StatusInternalServerError, customer.LoginResponse{
-			false, "Password Invalid", "",
+		return e.JSON(http.StatusInternalServerError, models.Response{
+			Status: false, Message: "Password Invalid",
 		})
 	}
 
@@ -88,9 +96,13 @@ func LoginController(e echo.Context) error {
 		return echo.ErrUnauthorized
 	}
 
-	token, err := middlewares.GenerateToken(id, email)
+	token, _ := middlewares.GenerateToken(id, email)
+
+	success := models.Response{
+		Status: true, Message: "Success Login, Welcome to Alta Store",
+	}
 
 	return e.JSON(http.StatusOK, customer.LoginResponse{
-		true, "Success Login, welcome to Alta Store", token,
+		Response: success, Token: token,
 	})
 }

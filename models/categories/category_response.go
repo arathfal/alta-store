@@ -1,13 +1,13 @@
 package categories
 
+import "AltaStore/models"
+
 type ResponseCategory struct {
-	Status  bool       `json:"status"`
-	Message string     `json:"message"`
-	Data    []Category `json:"data"`
+	models.Response
+	Data []Category `json:"data"`
 }
 
 type ResponseCategorySingle struct {
-	Status  bool     `json:"status"`
-	Message string   `json:"message"`
-	Data    Category `json:"data"`
+	models.Response
+	Data Category `json:"data"`
 }
