@@ -12,5 +12,5 @@ type Product struct {
 	Price       int                 `json:"price"`
 	Description string              `json:"description"`
 	CategoryID  uint                `json:"category_id"`
-	Category    categories.Category 
+	Category    categories.Category `gorm: References: CategoryID;`
 }

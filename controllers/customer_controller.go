@@ -2,11 +2,13 @@ package controllers
 
 import (
 	"AltaStore/configs"
+	helper "AltaStore/helpers"
+	"AltaStore/middlewares"
 	"AltaStore/models/customer"
+	"fmt"
 	"net/http"
 
 	"github.com/labstack/echo"
-	"golang.org/x/crypto/bcrypt"
 )
 
 func GetCustomerController(e echo.Context) error {
@@ -32,9 +34,10 @@ func RegisterController(e echo.Context) error {
 	var customerDB customer.Customer
 	customerDB.Name = customerRegister.Name
 	customerDB.Email = customerRegister.Email
-	customerDB.Password = hashAndSalt(customerRegister.Password)
+	customerDB.Password = helper.HashAndSalt(customerRegister.Password)
 
 	err := configs.DB.Create(&customerDB).Error
+
 	if err != nil {
 		return e.JSON(http.StatusInternalServerError, customer.ResponseCustomer{
 			false, "Failed register", nil,
@@ -46,11 +49,48 @@ func RegisterController(e echo.Context) error {
 	})
 }
 
-func hashAndSalt(pass string) string {
-	pwd := []byte(pass)
-	hash, err := bcrypt.GenerateFromPassword(pwd, bcrypt.MinCost)
+func CheckLogin(email, password string) (bool, int, error) {
+	var customerDB customer.Customer
+	var customer customer.Customer
+
+	err := configs.DB.Debug().Where("email = ?", email).Find(&customerDB).Scan(&customer).Error
+	id := customer.ID
+	pwd := customer.Password
+
 	if err != nil {
-		panic(err.Error())
+		fmt.Println("Email not found")
+		return false, 0, err
 	}
-	return string(hash)
+
+	match, err := helper.CheckHashAndPass(password, pwd)
+
+	if !match {
+		fmt.Println("Password doesn't match")
+		return false, 0, err
+
+	}
+	return true, int(id), nil
+
+}
+
+func LoginController(e echo.Context) error {
+	email := e.FormValue("Email")
+	password := e.FormValue("Password")
+	result, id, err := CheckLogin(email, password)
+
+	if err != nil {
+		return e.JSON(http.StatusInternalServerError, customer.LoginResponse{
+			false, "Password Invalid", "",
+		})
+	}
+
+	if !result {
+		return echo.ErrUnauthorized
+	}
+
+	token, err := middlewares.GenerateToken(id, email)
+
+	return e.JSON(http.StatusOK, customer.LoginResponse{
+		true, "Success Login, welcome to Alta Store", token,
+	})
 }

@@ -39,6 +39,7 @@ func GetProductsByCategoryController(e echo.Context) error {
 	return e.JSON(http.StatusOK, product.ProductResponse{
 		true, "Success get data products", dataProduct,
 	})
+
 }
 
 func CreateProductController(e echo.Context) error {

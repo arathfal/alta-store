@@ -46,9 +46,9 @@ func PostOrderController(c echo.Context) error {
 
 	for _, v := range customer.Cart.CartItems {
 		orderDB.OrderItems = append(orderDB.OrderItems, orderitems.OrderItems{
-			Name: v.Product.Name,
-			Quantity: v.Quantity,
-			Price: v.Product.Price,
+			Name:        v.Product.Name,
+			Quantity:    v.Quantity,
+			Price:       v.Product.Price,
 			Description: v.Product.Description,
 		})	
 	}

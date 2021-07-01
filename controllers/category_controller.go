@@ -15,12 +15,12 @@ func GetCategoryController(e echo.Context) error {
 
 	if err != nil {
 		return e.JSON(http.StatusInternalServerError, categories.ResponseCategory{
-			false, "Failed get data Products", nil,
+			false, "Failed get category", nil,
 		})
 	}
 
 	return e.JSON(http.StatusOK, categories.ResponseCategory{
-		true, "Success get fata Products", dataCategory,
+		true, "Success get category", dataCategory,
 	})
 
 }
