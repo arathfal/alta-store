@@ -57,3 +57,23 @@ func AutoMigrate() {
 	DB.AutoMigrate(&order.Order{})
 	DB.AutoMigrate(&orderitems.OrderItems{})
 }
+
+func InitDBTest() {
+	username := "root"
+	password := ""
+	host := "127.0.0.1:3306"
+	schema := "alta_store_test"
+
+	dataSourceName := fmt.Sprintf("%s:%s@tcp(%s)/%s?parseTime=true",
+		username, password, host, schema,
+	)
+
+	var err error
+	DB, err = gorm.Open(mysql.Open(dataSourceName), &gorm.Config{})
+
+	if err != nil {
+		panic(err.Error())
+	}
+
+	DB.SetupJoinTable(&cart.Cart{}, "Products", &cartitems.CartItems{})
+}
