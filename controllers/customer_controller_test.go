@@ -24,7 +24,7 @@ func AddCustomerData() bool {
 func TestGetCustomerControllers(t *testing.T) {
 	e := SetupEchoDB()
 	configs.DB.Migrator().DropTable(&customer.Customer{})
-	configs.DB.AutoMigrate(&customer.Customer{})
+	configs.DB.Migrator().AutoMigrate(&customer.Customer{})
 	AddCustomerData()
 	req := httptest.NewRequest(http.MethodGet, "/", nil)
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
