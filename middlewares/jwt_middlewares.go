@@ -1,21 +1,21 @@
 package middlewares
 
 import (
-	"log"
-	"os"
+	// "log"
+	// "os"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
-	"github.com/joho/godotenv"
+	// "github.com/joho/godotenv"
 	"github.com/labstack/echo"
 )
 
-func GetSecretKey() string {
-	if err := godotenv.Load(); err != nil {
-		log.Fatal("Error loading .env file")
-	}
-	return os.Getenv("JWT_KEY")
-}
+// func GetSecretKey() string {
+// 	if err := godotenv.Load(); err != nil {
+// 		log.Fatal("Error loading .env file")
+// 	}
+// 	return os.Getenv("JWT_KEY")
+// }
 
 func GenerateToken(userId int, userEmail string) (string, error) {
 	mapClaim := jwt.MapClaims{}
