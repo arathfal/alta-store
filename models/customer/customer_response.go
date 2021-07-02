@@ -1,13 +1,18 @@
 package customer
 
+import "AltaStore/models"
+
 type ResponseCustomer struct {
-	Status  bool       `json:"status"`
-	Message string     `json:"message"`
-	Data    []Customer `json:"data"`
+	models.Response
+	Data []Customer `json:"data"`
 }
 
 type ResponseCustomerSingle struct {
-	Status  bool     `json:"status"`
-	Message string   `json:"message"`
-	Data    Customer `json:"data"`
+	models.Response
+	Data Customer `json:"data"`
+}
+
+type LoginResponse struct {
+	models.Response
+	Token string `json:"token"`
 }
