@@ -61,8 +61,8 @@ func PostOrderController(c echo.Context) error {
 
 	configs.DB.Where("cart_id = ?", customer.Cart.ID).Delete(&customer.Cart.CartItems)
 
-	return c.JSON(http.StatusOK, models.Response{
-		Status: true, Message: "Success Checkout",
+	return c.JSON(http.StatusOK, order.CheckoutResponse{
+		Response: models.Response{Status: true, Message: "Success checkout"}, Data: order.Checkout{TotalAmount: 17132, BankAccount: "BCA", BankNumber: "8420041444"},
 	})
 }
 
