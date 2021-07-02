@@ -43,7 +43,7 @@ func InitDB() {
 		panic(err.Error())
 	}
 
-	DB.SetupJoinTable(&cart.Cart{}, "Products", &cartitems.CartItems{})
+	// DB.SetupJoinTable(&cart.Cart{}, "Products", &cartitems.CartItems{})
 
 	AutoMigrate()
 }
@@ -59,10 +59,10 @@ func AutoMigrate() {
 }
 
 func InitDBTest() {
-	username := "root"
-	password := ""
+	username := "hbstudent"
+	password := "hbstudent"
 	host := "127.0.0.1:3306"
-	schema := "alta_store_test"
+	schema := "testaltastore"
 
 	dataSourceName := fmt.Sprintf("%s:%s@tcp(%s)/%s?parseTime=true",
 		username, password, host, schema,
@@ -75,5 +75,20 @@ func InitDBTest() {
 		panic(err.Error())
 	}
 
-	DB.SetupJoinTable(&cart.Cart{}, "Products", &cartitems.CartItems{})
+	// DB.SetupJoinTable(&cart.Cart{}, "Products", &cartitems.CartItems{})
+
+	// AutoMigrateTest()
 }
+
+// func AutoMigrateTest() {
+// 	DB.Migrator().DropTable(&orderitems.OrderItems{}, &order.Order{}, &cartitems.CartItems{},
+// 		&categories.Category{}, &product.Product{}, &cart.Cart{}, &customer.Customer{})
+// 	DB.AutoMigrate(&customer.Customer{})
+// 	DB.AutoMigrate(&cart.Cart{})
+// 	DB.AutoMigrate(&product.Product{})
+// 	DB.AutoMigrate(&categories.Category{})
+// 	DB.AutoMigrate(&cartitems.CartItems{})
+// 	DB.AutoMigrate(&order.Order{})
+// 	DB.AutoMigrate(&orderitems.OrderItems{})
+
+// }

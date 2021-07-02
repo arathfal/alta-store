@@ -27,7 +27,7 @@ func GenerateToken(userId int, userEmail string) (string, error) {
 
 	// key
 
-	return token.SignedString([]byte(GetSecretKey()))
+	return token.SignedString([]byte("tes"))
 }
 
 func HandleLogin(c echo.Context) (int, string) {

@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"AltaStore/configs"
+	"AltaStore/models/categories"
 	"AltaStore/models/product"
 	"encoding/json"
 	"net/http"
@@ -13,7 +14,7 @@ import (
 )
 
 func AddProductData() bool {
-	product := product.Product{Name: "Test Product", Stock: 1, Price: 1000, Description: "Decs", CategoryID: 1}
+	product := product.Product{Name: "Test Product", Stock: 1, Price: 1000, Description: "Decs", Category: categories.Category{Name: "Mainan"}}
 	err := configs.DB.Create(&product)
 	if err != nil {
 		return false
