@@ -2,16 +2,29 @@ package routes
 
 import (
 	"AltaStore/controllers"
+	// "AltaStore/middlewares"
 
 	"github.com/labstack/echo"
+	"github.com/labstack/echo/middleware"
 )
 
 func New() *echo.Echo {
 	e := echo.New()
-	e.GET("/products", controllers.GetProductsController)
-	e.GET("/products?category=id", controllers.GetProductsByCategoryController)
-	e.POST("/products", controllers.CreateProductController)
-	e.GET("/category", controllers.GetCategoryController)
-	e.POST("/category", controllers.CreateCategoryController)
+	e.POST("/register", controllers.RegisterController)
+	e.POST("/login", controllers.LoginController)
+	eJwt := e.Group("/")
+	eJwt.Use(middleware.JWT([]byte("tes")))
+	eJwt.GET("customers", controllers.GetCustomerController)
+	eJwt.GET("products", controllers.GetProductsController)
+	eJwt.GET("products?category_id=id", controllers.GetProductsByCategoryController)
+	eJwt.POST("products", controllers.CreateProductController)
+	eJwt.GET("category", controllers.GetCategoryController)
+	eJwt.POST("category", controllers.CreateCategoryController)
+	eJwt.GET("carts", controllers.GetCartControllers)
+	eJwt.POST("carts", controllers.AddToCartController)
+	eJwt.DELETE("carts/:cartId/products/:productId", controllers.DeleteCartControllers)
+	eJwt.POST("checkout", controllers.PostOrderController)
+	eJwt.POST("paid", controllers.PayController)
+
 	return e
 }
